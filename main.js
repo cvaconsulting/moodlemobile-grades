@@ -12,7 +12,7 @@ define(templates,function (activities, activityGrade, langStrings) {
             menuURL: "#course/grades/",
             lang: {
                 component: "local_custommm",
-				strings: langStrings
+                strings: langStrings
             }
         },
 
@@ -56,27 +56,27 @@ define(templates,function (activities, activityGrade, langStrings) {
             }
 
             var data = {
-				"grades[courseid]" : courseId,
-				"grades[component]" : "mod_" + modName,
-				"grades[cmid]" : cmId,
-				"grades[userids][0]" : MM.config.current_site.userid
+                "grades[courseid]" : courseId,
+                "grades[component]" : "mod_" + modName,
+                "grades[cmid]" : cmId,
+                "grades[userids][0]" : MM.config.current_site.userid
             };            
             
             MM.moodleWSCall('local_custommm_get_grades', data, function(contents) {
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
-				
-				var grade= MM.lang.s("nogrades", "grades");
-				
-				if(contents.items[0]) {
-					grade = contents.items[0]["grades"][0]["str_long_grade"];
-				}
+                
+                var grade= MM.lang.s("nogrades", "grades");
+                
+                if(contents.items[0]) {
+                    grade = contents.items[0]["grades"][0]["str_long_grade"];
+                }
 
                 var tpl = {
-					activityName: activityName,
+                    activityName: activityName,
                     sections: contents,
-					finalGrade: grade,
+                    finalGrade: grade,
                     course: course.toJSON(), // Convert a model to a plain javascript object.
-					items: contents
+                    items: contents
                 }
                 var html = MM.tpl.render(MM.plugins.grades.templates.activityGrade.html, tpl);
                 MM.panels.show("right", html);
